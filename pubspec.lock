@@ -141,6 +141,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.1"
+  chopper:
+    dependency: transitive
+    description:
+      name: chopper
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "5.1.0"
   clock:
     dependency: transitive
     description:
@@ -643,6 +650,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.3.1"
+  tankerkoenig_dart:
+    dependency: "direct main"
+    description:
+      name: tankerkoenig_dart
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.2"
   term_glyph:
     dependency: transitive
     description:

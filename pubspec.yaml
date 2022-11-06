@@ -25,6 +25,7 @@ dependencies:
   cupertino_icons: ^1.0.5
 
   location: ^4.4.0
+  tankerkoenig_dart: ^1.0.2
 
 dev_dependencies:
   integration_test:
