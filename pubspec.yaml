@@ -1,0 +1,49 @@
+name: gasstation_locator
+description: A flutter project to locate the cheapest gas station next to the user. This project is determined to be used in germany.
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=2.18.4 <3.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  # localization
+  flutter_localizations:
+    sdk: flutter
+  # state management
+  get_it: ^7.2.0
+  bloc: ^8.1.0
+  flutter_bloc: ^8.1.1
+  bloc_concurrency: ^0.2.0
+  # models
+  freezed_annotation:
+  json_annotation: ^4.7.0
+  uuid: ^3.0.6
+  # util
+  cupertino_icons: ^1.0.5
+
+  location: ^4.4.0
+
+dev_dependencies:
+  integration_test:
+    sdk: flutter
+  flutter_driver:
+    sdk: flutter
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.1
+  dart_code_metrics:
+  build_runner:
+  flutter_gen_runner:
+  freezed:
+  json_serializable:
+  hive_generator:
+
+flutter:
+  uses-material-design: true
+  # Enable generation of localized Strings from arb files.
+  generate: true
+  assets:
+   - assets/
