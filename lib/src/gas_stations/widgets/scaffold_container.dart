@@ -5,12 +5,15 @@ class ScaffoldContainer extends StatelessWidget {
     // ignore: unused_element
     super.key,
     required this.builder,
+    this.bottomNavigation,
   });
   final WidgetBuilder builder;
+  final Widget? bottomNavigation;
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        bottomNavigationBar: bottomNavigation,
         body: builder(context),
       ),
     );

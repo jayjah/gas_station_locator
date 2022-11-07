@@ -26,20 +26,31 @@ class GasStationHandler with ChangeNotifier {
   GasStationHandler();
 
   void updateLocations() =>
-      _updateCurrentLocation().whenComplete(_retrieveGasStations);
+      _updateCurrentLocation().whenComplete(_retrieveGasStationsByLatLng);
 
   set updateRadius(int radius) {
     _loading = true;
     _radiusInKm = radius;
     debugPrint('new radius: $_radiusInKm');
-    _retrieveGasStations();
+    notifyListeners();
+    _retrieveGasStationsByLatLng();
   }
 
   set updateFilter(Filter filter) {
-    _loading = true;
     _currentFilter = filter;
+    _stations = _stations?.toList(growable: false)
+      ?..sort((Station t1, Station t2) {
+        switch (_currentFilter) {
+          case Filter.e5:
+            return t1.e5Price.compareTo(t2.e5Price);
+          case Filter.e10:
+            return t1.e10Price.compareTo(t2.e10Price);
+          case Filter.diesel:
+            return t1.dieselPrice.compareTo(t2.dieselPrice);
+        }
+      });
     debugPrint('new filter: $_currentFilter');
-    _retrieveGasStations();
+    notifyListeners();
   }
 
   int get currentRadius => _radiusInKm;
@@ -70,7 +81,11 @@ class GasStationHandler with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> _retrieveGasStations() async {
+  Future<void> _retrieveGasStationsByPostalCode() async {
+    final DateTime now = DateTime.now();
+  }
+
+  Future<void> _retrieveGasStationsByLatLng() async {
     final DateTime now = DateTime.now();
     _stations = (await _api.stationsByLatLng(
       latitude: _currentLocation?.latitude ?? 0.0,

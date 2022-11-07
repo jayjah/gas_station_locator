@@ -3,9 +3,10 @@
 import 'package:flutter/material.dart';
 import 'package:gasstation_locator/src/gas_stations/gas_stations_handler.dart';
 import 'package:gasstation_locator/src/gas_stations/widgets/address_container.dart';
+import 'package:gasstation_locator/src/gas_stations/widgets/bottom_navigation.dart';
 import 'package:gasstation_locator/src/gas_stations/widgets/error_text.dart';
 import 'package:gasstation_locator/src/gas_stations/widgets/filter_changer.dart';
-import 'package:gasstation_locator/src/gas_stations/widgets/gas_station_tile.dart';
+import 'package:gasstation_locator/src/gas_stations/widgets/gas_station_list.dart';
 import 'package:gasstation_locator/src/gas_stations/widgets/radius_changer.dart';
 import 'package:gasstation_locator/src/gas_stations/widgets/scaffold_container.dart';
 import 'package:location/location.dart';
@@ -31,6 +32,11 @@ class _GasStationSearcherWidgetState extends State<GasStationSearcherWidget> {
   @override
   Widget build(BuildContext context) {
     return ScaffoldContainer(
+      bottomNavigation: BottomNavigation(
+        onNextView: (ViewMode nextViewMode) {
+          //TODO(jayjah): handle next view mode
+        },
+      ),
       builder: (BuildContext context) {
         return AnimatedBuilder(
           animation: _handler,
@@ -52,13 +58,14 @@ class _GasStationSearcherWidgetState extends State<GasStationSearcherWidget> {
             return Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                //TODO(jayjah): add page to search for postal code
-
                 AddressContainer(
                   address: _handler.currentAddress,
                   latitude: currentLocation.latitude,
                   longitude: currentLocation.longitude,
                 ),
+
+                //TODO(jayjah): add page to search for gas stations in user determined postal code
+
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
@@ -74,19 +81,11 @@ class _GasStationSearcherWidgetState extends State<GasStationSearcherWidget> {
                     ),
                   ],
                 ),
+
                 const SizedBox(
                   height: 20,
                 ),
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: stations.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      final Station gasStation = stations.elementAt(index);
-
-                      return GasStationTile(gasStation: gasStation);
-                    },
-                  ),
-                ),
+                GasStationList(stations: stations),
               ],
             );
           },
