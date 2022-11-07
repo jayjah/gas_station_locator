@@ -21,6 +21,7 @@ class GasStationTile extends StatelessWidget {
         child: Column(children: <Widget>[
           Text(
             '${gasStation.street} ${gasStation.postalCode} ${gasStation.place}',
+            textAlign: TextAlign.center,
           ),
           const SizedBox(
             height: 5,
