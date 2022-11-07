@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:gasstation_locator/src/gas_stations/gas_stations_handler.dart';
+import 'package:gasstation_locator/src/gas_stations/widgets/address_container.dart';
 import 'package:gasstation_locator/src/gas_stations/widgets/error_text.dart';
 import 'package:gasstation_locator/src/gas_stations/widgets/gas_station_tile.dart';
 import 'package:gasstation_locator/src/gas_stations/widgets/scaffold_container.dart';
@@ -53,10 +54,13 @@ class _GasStationSearcherWidgetState extends State<GasStationSearcherWidget> {
                 //TODO(jayjah): add mechanism to change filter
                 //TODO(jayjah): add page to search for postal code
 
-                Text(
-                  'Current Position\nlatitude=${currentLocation.longitude}  |  longitude=${currentLocation.longitude}',
-                  style: const TextStyle(fontSize: 18),
-                  textAlign: TextAlign.center,
+                AddressContainer(
+                  address: _handler.currentAddress,
+                  latitude: currentLocation.latitude,
+                  longitude: currentLocation.longitude,
+                ),
+                const SizedBox(
+                  height: 20,
                 ),
                 Expanded(
                   child: ListView.builder(

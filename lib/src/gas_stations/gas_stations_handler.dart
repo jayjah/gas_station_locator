@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart' show ChangeNotifier, debugPrint;
+import 'package:geocode/geocode.dart';
 import 'package:location/location.dart';
 import 'package:tankerkoenig_dart/tankerkoenig_dart.dart';
 
@@ -13,16 +14,16 @@ enum Filter {
 class GasStationHandler with ChangeNotifier {
   late final Location _location = Location();
   late final TankerKoenigApi _api = TankerKoenigApi(_kApiKey);
+  late final GeoCode _reverseGeoCoding = GeoCode();
 
   LocationData? _currentLocation;
+  Address? _currentAddress;
   Iterable<Station>? _stations;
   int _radiusInKm = 15;
   Filter _currentFilter = Filter.diesel;
   bool _loading = true;
 
   GasStationHandler();
-
-  bool get isLoading => _loading;
 
   void updateLocations() =>
       _updateCurrentLocation().whenComplete(_retrieveGasStations);
@@ -45,10 +46,23 @@ class GasStationHandler with ChangeNotifier {
 
   Iterable<Station>? get stations => _stations;
 
+  bool get isLoading => _loading;
+
+  String get currentAddress =>
+      '${_currentAddress?.streetAddress ?? ''} ${_currentAddress?.streetNumber ?? ''}\n${_currentAddress?.postal ?? ''} ${_currentAddress?.city ?? ''}';
+
   Future<void> _updateCurrentLocation() async {
     _loading = true;
     _currentLocation = await _location.getLocation();
+    if (_currentLocation?.latitude != null &&
+        _currentLocation?.longitude != null)
+      // ignore: curly_braces_in_flow_control_structures
+      _currentAddress = await _reverseGeoCoding.reverseGeocoding(
+        latitude: _currentLocation!.latitude!,
+        longitude: _currentLocation!.longitude!,
+      );
     debugPrint('current location: $_currentLocation');
+    debugPrint('current address: $_currentAddress');
     notifyListeners();
   }
 
