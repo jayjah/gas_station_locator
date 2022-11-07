@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:gasstation_locator/src/gas_stations/gas_stations_handler.dart';
 import 'package:gasstation_locator/src/gas_stations/widgets/address_container.dart';
 import 'package:gasstation_locator/src/gas_stations/widgets/error_text.dart';
+import 'package:gasstation_locator/src/gas_stations/widgets/filter_changer.dart';
 import 'package:gasstation_locator/src/gas_stations/widgets/gas_station_tile.dart';
+import 'package:gasstation_locator/src/gas_stations/widgets/radius_changer.dart';
 import 'package:gasstation_locator/src/gas_stations/widgets/scaffold_container.dart';
 import 'package:location/location.dart';
 import 'package:tankerkoenig_dart/tankerkoenig_dart.dart';
@@ -41,7 +43,7 @@ class _GasStationSearcherWidgetState extends State<GasStationSearcherWidget> {
               return const ErrorText(content: 'Current location unknown!');
 
             final Iterable<Station>? stations = _handler.stations;
-            if (stations == null || stations.isEmpty)
+            if (stations == null)
               return ErrorText(
                 content:
                     'No gas stations are known for location(latitude: ${currentLocation.latitude ?? 0.0} longitude: ${currentLocation.longitude ?? 0.0})',
@@ -50,14 +52,27 @@ class _GasStationSearcherWidgetState extends State<GasStationSearcherWidget> {
             return Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                //TODO(jayjah): add slider to change radius
-                //TODO(jayjah): add mechanism to change filter
                 //TODO(jayjah): add page to search for postal code
 
                 AddressContainer(
                   address: _handler.currentAddress,
                   latitude: currentLocation.latitude,
                   longitude: currentLocation.longitude,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    RadiusChanger(
+                      startRadius: _handler.currentRadius,
+                      onRadiusChange: (int radius) =>
+                          _handler.updateRadius = radius,
+                    ),
+                    FilterChanger(
+                      startFilter: _handler.currentFilter,
+                      onFilterChange: (Filter filter) =>
+                          _handler.updateFilter = filter,
+                    ),
+                  ],
                 ),
                 const SizedBox(
                   height: 20,

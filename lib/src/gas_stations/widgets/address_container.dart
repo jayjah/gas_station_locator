@@ -12,28 +12,20 @@ class AddressContainer extends StatelessWidget {
   final String address;
   @override
   Widget build(BuildContext context) {
-    const TextStyle headerStyle = TextStyle(fontSize: 18);
     const TextStyle defaultStyle = TextStyle(fontSize: 16);
 
     return Column(
       children: <Widget>[
-        const Text(
-          'Current Address',
-          style: headerStyle,
-          textAlign: TextAlign.center,
+        const SizedBox(
+          height: 8,
         ),
         Text(
           address,
           style: defaultStyle,
           textAlign: TextAlign.center,
         ),
-        const Text(
-          'Current Position',
-          style: headerStyle,
-          textAlign: TextAlign.center,
-        ),
         Text(
-          'latitude=$latitude  |  longitude=$longitude',
+          'latitude = $latitude  |  longitude = $longitude',
           style: defaultStyle,
           textAlign: TextAlign.center,
         ),

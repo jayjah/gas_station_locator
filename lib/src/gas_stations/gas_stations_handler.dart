@@ -42,6 +42,10 @@ class GasStationHandler with ChangeNotifier {
     _retrieveGasStations();
   }
 
+  int get currentRadius => _radiusInKm;
+
+  Filter get currentFilter => _currentFilter;
+
   LocationData? get currentLocation => _currentLocation;
 
   Iterable<Station>? get stations => _stations;
