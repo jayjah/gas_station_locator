@@ -1,5 +1,5 @@
 extension DateFormater on DateTime {
-  String get dayMonthHourMinute {
-    return '$day.$month $hour:$minute';
+  String get toHourMinuteDayMonth {
+    return '$hour:$minute $day.$month';
   }
 }
