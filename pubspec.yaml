@@ -9,7 +9,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
+  rive: ^0.9.1
   location: ^4.4.0
   tankerkoenig_dart: ^1.0.2
 

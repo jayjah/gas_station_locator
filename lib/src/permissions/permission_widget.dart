@@ -1,8 +1,10 @@
 // ignore_for_file: curly_braces_in_flow_control_structures
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart' show SystemChannels;
 import 'package:gasstation_locator/src/gas_stations/station_searcher_widget.dart';
 import 'package:gasstation_locator/src/permissions/permission_handler.dart';
+import 'package:gasstation_locator/src/util/dialogs.dart';
 
 class PermissionWidget extends StatefulWidget {
   const PermissionWidget({super.key});
@@ -40,28 +42,39 @@ class _PermissionWidgetState extends State<PermissionWidget>
       fontSize: 20,
     );
 
-    return ValueListenableBuilder<AppLifecycleState>(
-      valueListenable: _lifecycleListenable,
-      builder: (BuildContext context, AppLifecycleState _, Widget? child) {
-        return child!;
-      },
-      child: AnimatedBuilder(
-        animation: _handler,
-        builder: (BuildContext context, Widget? child) {
-          if (_handler.isLoading)
-            return const CircularProgressIndicator.adaptive();
-          if (!_handler.gpsServiceEnabled)
-            return const Center(
-              child: Text('GPS Service not enabled', style: errorTextStyle),
-            );
-          if (!_handler.gpsPermissionGiven)
-            return const Center(
-              child: Text('GPS Permissions not given', style: errorTextStyle),
-            );
+    return WillPopScope(
+      onWillPop: () async {
+        final bool closeApp = await const AppDialogs()
+            .showYesNoDialog('Close App', 'Do you want to close the app?');
+        if (closeApp)
+          await SystemChannels.platform
+              .invokeMethod<void>('SystemNavigator.pop');
 
+        return true;
+      },
+      child: ValueListenableBuilder<AppLifecycleState>(
+        valueListenable: _lifecycleListenable,
+        builder: (BuildContext context, AppLifecycleState _, Widget? child) {
           return child!;
         },
-        child: const GasStationSearcherWidget(),
+        child: AnimatedBuilder(
+          animation: _handler,
+          builder: (BuildContext context, Widget? child) {
+            if (_handler.isLoading)
+              return const CircularProgressIndicator.adaptive();
+            if (!_handler.gpsServiceEnabled)
+              return const Center(
+                child: Text('GPS Service not enabled', style: errorTextStyle),
+              );
+            if (!_handler.gpsPermissionGiven)
+              return const Center(
+                child: Text('GPS Permissions not given', style: errorTextStyle),
+              );
+
+            return child!;
+          },
+          child: const GasStationSearcherWidget(),
+        ),
       ),
     );
   }

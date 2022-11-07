@@ -2,7 +2,6 @@
 
 import 'package:flutter/cupertino.dart' show showCupertinoDialog;
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart' show SystemChannels;
 
 /// Navigator Key
 ///   Should be used in a [MaterialApp], otherwise [AppDialogs] will fail to show any dialog!
@@ -26,35 +25,10 @@ class AppDialogs {
             message: message,
             additionalWidgetBuilder: (BuildContext context) => const <Widget>[
               _YesNoButtons(),
-              _CloseButton(),
             ],
           ),
         ) ==
         true;
-  }
-
-  Future<String> retrieveLanguageCodeDialog(
-    final String title,
-    final String message,
-    final TextEditingController textController,
-  ) async {
-    assert(navigatorKey.currentContext != null,
-        'navigatorKeys context is NULL, which leads to misuse of navigatorKey. Use navigatorKey in MaterialApp therefore');
-
-    await showCupertinoDialog<String>(
-      context: navigatorKey.currentContext!,
-      builder: (BuildContext context) => _DialogWidget(
-        title: title,
-        message: message,
-        additionalWidgetBuilder: (BuildContext context) => <Widget>[
-          TextField(
-            controller: textController,
-          ),
-          const _OkButton(),
-        ],
-      ),
-    );
-    return textController.text;
   }
 }
 
@@ -127,36 +101,20 @@ class _YesNoButtons extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         TextButton(
-            onPressed: () => Navigator.of(context).maybePop(false),
-            child: Text(
-              'No',
-              style: style.copyWith(color: Colors.red),
-            )),
+          onPressed: () => Navigator.of(context).maybePop(false),
+          child: Text(
+            'No',
+            style: style.copyWith(color: Colors.red),
+          ),
+        ),
         TextButton(
           onPressed: () => Navigator.of(context).maybePop(true),
           child: Text(
             'Yes',
             style: style.copyWith(color: Colors.green),
           ),
-        )
+        ),
       ],
-    );
-  }
-}
-
-// Simple close app button
-class _CloseButton extends StatelessWidget {
-  const _CloseButton({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return TextButton(
-      onPressed: () =>
-          SystemChannels.platform.invokeMethod<void>('SystemNavigator.pop'),
-      child: const Text(
-        'Exit App',
-        style: TextStyle(fontSize: 16, color: Colors.blue),
-      ),
     );
   }
 }

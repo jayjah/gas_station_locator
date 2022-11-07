@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gasstation_locator/src/permissions/permission_widget.dart';
+import 'package:gasstation_locator/src/splash/splash_screen_widget.dart';
 import 'package:gasstation_locator/src/util/dialogs.dart';
 
 class App extends StatelessWidget {
@@ -18,7 +18,7 @@ class App extends StatelessWidget {
         ),
         useMaterial3: true,
       ),
-      home: const Material(child: PermissionWidget()),
+      home: const Material(child: SplashScreen()),
     );
   }
 }
