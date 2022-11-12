@@ -86,10 +86,11 @@ class GasStationHandler with ChangeNotifier {
         _retrieveGasStationsByLatLng();
         break;
       case ViewMode.searchForPostalCode:
-        // TODO: Handle this case.
-        break;
+        if (_postalCode != -1) _retrieveGasStationsByPostalCode();
     }
   }
+
+  int get currentPostalCode => _postalCode;
 
   int get currentRadius => _radiusInKm;
 

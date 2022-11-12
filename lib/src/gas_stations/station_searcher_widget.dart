@@ -78,6 +78,7 @@ class _GasStationSearcherWidgetState extends State<GasStationSearcherWidget> {
                 return SearchPostalCodeView(
                   currentLocation: currentLocation,
                   currentAddress: _handler.currentAddress,
+                  firstPostalCode: _handler.currentPostalCode,
                   stations: stations,
                   onSearchForPostalCode: (int postalCode) =>
                       _handler.updatePostalCode = postalCode,

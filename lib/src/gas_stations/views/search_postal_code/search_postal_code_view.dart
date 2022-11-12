@@ -13,17 +13,25 @@ class SearchPostalCodeView extends StatefulWidget {
     required this.currentLocation,
     required this.onSearchForPostalCode,
     required this.stations,
+    required this.firstPostalCode,
   });
   final LocationData currentLocation;
   final String currentAddress;
   final OnSearchForPostalCode onSearchForPostalCode;
   final Iterable<Station> stations;
+  final int firstPostalCode;
   @override
   State<SearchPostalCodeView> createState() => _SearchPostalCodeViewState();
 }
 
 class _SearchPostalCodeViewState extends State<SearchPostalCodeView> {
   final TextEditingController _textEditingController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    _textEditingController.text = widget.firstPostalCode.toString();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,26 +43,32 @@ class _SearchPostalCodeViewState extends State<SearchPostalCodeView> {
           latitude: widget.currentLocation.latitude,
           longitude: widget.currentLocation.longitude,
         ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: <Widget>[
-            Expanded(
-              child: TextField(
-                controller: _textEditingController,
-                keyboardType: TextInputType.number,
+        Padding(
+          padding: const EdgeInsets.only(
+            left: 18.0,
+            right: 18.0,
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              Expanded(
+                child: TextField(
+                  controller: _textEditingController,
+                  keyboardType: TextInputType.number,
+                ),
               ),
-            ),
-            IconButton(
-              onPressed: () {
-                final int? postalCode =
-                    int.tryParse(_textEditingController.text);
-                if (postalCode != null)
-                  // ignore: curly_braces_in_flow_control_structures
-                  widget.onSearchForPostalCode(postalCode);
-              },
-              icon: const Icon(Icons.search),
-            ),
-          ],
+              IconButton(
+                onPressed: () {
+                  final int? postalCode =
+                      int.tryParse(_textEditingController.text);
+                  if (postalCode != null)
+                    // ignore: curly_braces_in_flow_control_structures
+                    widget.onSearchForPostalCode(postalCode);
+                },
+                icon: const Icon(Icons.search),
+              ),
+            ],
+          ),
         ),
         const SizedBox(height: 20),
         GasStationList(stations: widget.stations),
