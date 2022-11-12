@@ -23,6 +23,7 @@ dev_dependencies:
     sdk: flutter
   flutter_lints: ^2.0.1
   dart_code_metrics:
+  flutter_launcher_icons: ^0.10.0
 
 dependency_overrides:
   tankerkoenig_dart:
@@ -34,3 +35,9 @@ flutter:
   generate: false
   assets:
    - assets/
+
+flutter_icons:
+  ios: true
+  android: true
+  image_path: "assets/gas_pump_icon.jpg"
+  remove_alpha_ios: true
