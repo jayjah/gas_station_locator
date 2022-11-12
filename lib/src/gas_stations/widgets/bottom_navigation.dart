@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-
-enum ViewMode {
-  searchAround,
-  searchForPostalCode,
-}
+import 'package:gasstation_locator/src/gas_stations/gas_stations_handler.dart'
+    show ViewMode, kSearchAroundLabel, kPostalCodeLabel;
 
 typedef OnViewModeChanged = void Function(ViewMode nextMode);
 
@@ -14,11 +11,11 @@ class BottomNavigation extends StatelessWidget {
     this.items = const <BottomNavigationBarItem>[
       BottomNavigationBarItem(
         icon: Icon(Icons.search),
-        label: 'Search around',
+        label: kSearchAroundLabel,
       ),
       BottomNavigationBarItem(
         icon: Icon(Icons.location_city_outlined),
-        label: 'Search for postal code',
+        label: kPostalCodeLabel,
       ),
     ],
   });
@@ -36,10 +33,11 @@ class BottomNavigation extends StatelessWidget {
     if (index == null) return;
 
     final BottomNavigationBarItem nextItem = items[index];
-    final ViewMode next = ViewMode.values.firstWhere(
-      (ViewMode element) =>
-          element.name.toLowerCase().trim() == nextItem.label!,
-    );
+
+    final ViewMode next = ViewMode.values.firstWhere((ViewMode element) {
+      return element.message.toLowerCase().trim() ==
+          nextItem.label!.toLowerCase().trim();
+    });
 
     onNextView(next);
   }

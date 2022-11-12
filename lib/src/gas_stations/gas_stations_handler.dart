@@ -11,6 +11,17 @@ enum Filter {
   diesel,
 }
 
+const String kSearchAroundLabel = 'Search around';
+const String kPostalCodeLabel = 'Search for postal code';
+
+enum ViewMode {
+  searchAround(kSearchAroundLabel),
+  searchForPostalCode(kPostalCodeLabel);
+
+  const ViewMode(this.message);
+  final String message;
+}
+
 class GasStationHandler with ChangeNotifier {
   late final Location _location = Location();
   late final TankerKoenigApi _api = TankerKoenigApi(_kApiKey);
@@ -22,6 +33,8 @@ class GasStationHandler with ChangeNotifier {
   int _radiusInKm = 15;
   Filter _currentFilter = Filter.diesel;
   bool _loading = true;
+  ViewMode _currentViewMode = ViewMode.searchAround;
+  int _postalCode = -1;
 
   GasStationHandler();
 
@@ -34,6 +47,16 @@ class GasStationHandler with ChangeNotifier {
     debugPrint('new radius: $_radiusInKm');
     notifyListeners();
     _retrieveGasStationsByLatLng();
+  }
+
+  set updatePostalCode(int postalCode) {
+    if (postalCode <= 0) return;
+
+    _postalCode = postalCode;
+    _loading = true;
+    notifyListeners();
+    debugPrint('new postal code: $_postalCode');
+    _retrieveGasStationsByPostalCode();
   }
 
   set updateFilter(Filter filter) {
@@ -53,6 +76,21 @@ class GasStationHandler with ChangeNotifier {
     notifyListeners();
   }
 
+  set updateViewMode(ViewMode viewMode) {
+    _currentViewMode = viewMode;
+    _stations = <Station>[];
+    notifyListeners();
+
+    switch (_currentViewMode) {
+      case ViewMode.searchAround:
+        _retrieveGasStationsByLatLng();
+        break;
+      case ViewMode.searchForPostalCode:
+        // TODO: Handle this case.
+        break;
+    }
+  }
+
   int get currentRadius => _radiusInKm;
 
   Filter get currentFilter => _currentFilter;
@@ -65,6 +103,8 @@ class GasStationHandler with ChangeNotifier {
 
   String get currentAddress =>
       '${_currentAddress?.streetAddress ?? ''} ${_currentAddress?.streetNumber ?? ''}\n${_currentAddress?.postal ?? ''} ${_currentAddress?.city ?? ''}';
+
+  ViewMode get currentViewMode => _currentViewMode;
 
   Future<void> _updateCurrentLocation() async {
     _loading = true;
@@ -83,6 +123,15 @@ class GasStationHandler with ChangeNotifier {
 
   Future<void> _retrieveGasStationsByPostalCode() async {
     final DateTime now = DateTime.now();
+    _stations = (await _api.stationsByPostalCode(
+      postalCode: _postalCode,
+    ))
+        ?.filterForOpenCloseTime(now)
+        .toList(growable: false)
+      ?..sortByFilter(_currentFilter);
+    _loading = false;
+    debugPrint('all stations: ${_stations?.toList()}');
+    notifyListeners();
   }
 
   Future<void> _retrieveGasStationsByLatLng() async {
@@ -92,12 +141,25 @@ class GasStationHandler with ChangeNotifier {
       longitude: _currentLocation?.longitude ?? 0.0,
       radius: _radiusInKm,
     ))
-        ?.where((Station element) =>
-            (element.opensAt?.isBefore(now) ?? true) &&
-            (element.closesAt?.isAfter(now) ?? true))
+        ?.filterForOpenCloseTime(now)
         .toList(growable: false)
-      ?..sort((Station t1, Station t2) {
-        switch (_currentFilter) {
+      ?..sortByFilter(_currentFilter);
+    _loading = false;
+    debugPrint('all stations: ${_stations?.toList()}');
+    notifyListeners();
+  }
+}
+
+extension FilterForOpen on Iterable<Station> {
+  Iterable<Station> filterForOpenCloseTime(DateTime now) =>
+      where((Station element) =>
+          (element.opensAt?.isBefore(now) ?? true) &&
+          (element.closesAt?.isAfter(now) ?? true));
+}
+
+extension Sorting on List<Station> {
+  void sortByFilter(Filter filter) => sort((Station t1, Station t2) {
+        switch (filter) {
           case Filter.e5:
             return t1.e5Price.compareTo(t2.e5Price);
           case Filter.e10:
@@ -106,8 +168,4 @@ class GasStationHandler with ChangeNotifier {
             return t1.dieselPrice.compareTo(t2.dieselPrice);
         }
       });
-    _loading = false;
-    debugPrint('all stations: ${_stations?.toList()}');
-    notifyListeners();
-  }
 }

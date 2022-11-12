@@ -4,7 +4,6 @@ import 'package:tankerkoenig_dart/tankerkoenig_dart.dart' show Station;
 
 class GasStationList extends StatelessWidget {
   const GasStationList({
-    // ignore: unused_element
     super.key,
     required this.stations,
   });

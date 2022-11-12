@@ -2,12 +2,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:gasstation_locator/src/gas_stations/gas_stations_handler.dart';
-import 'package:gasstation_locator/src/gas_stations/widgets/address_container.dart';
+import 'package:gasstation_locator/src/gas_stations/views/search_around/search_around_view.dart';
+import 'package:gasstation_locator/src/gas_stations/views/search_postal_code/search_postal_code_view.dart';
 import 'package:gasstation_locator/src/gas_stations/widgets/bottom_navigation.dart';
 import 'package:gasstation_locator/src/gas_stations/widgets/error_text.dart';
-import 'package:gasstation_locator/src/gas_stations/widgets/filter_changer.dart';
-import 'package:gasstation_locator/src/gas_stations/widgets/gas_station_list.dart';
-import 'package:gasstation_locator/src/gas_stations/widgets/radius_changer.dart';
 import 'package:gasstation_locator/src/gas_stations/widgets/scaffold_container.dart';
 import 'package:location/location.dart';
 import 'package:tankerkoenig_dart/tankerkoenig_dart.dart';
@@ -33,9 +31,8 @@ class _GasStationSearcherWidgetState extends State<GasStationSearcherWidget> {
   Widget build(BuildContext context) {
     return ScaffoldContainer(
       bottomNavigation: BottomNavigation(
-        onNextView: (ViewMode nextViewMode) {
-          //TODO(jayjah): handle next view mode
-        },
+        onNextView: (ViewMode nextViewMode) =>
+            _handler.updateViewMode = nextViewMode,
       ),
       builder: (BuildContext context) {
         return AnimatedBuilder(
@@ -50,44 +47,42 @@ class _GasStationSearcherWidgetState extends State<GasStationSearcherWidget> {
 
             final Iterable<Station>? stations = _handler.stations;
             if (stations == null)
-              return ErrorText(
-                content:
-                    'No gas stations are known for location(latitude: ${currentLocation.latitude ?? 0.0} longitude: ${currentLocation.longitude ?? 0.0})',
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  ErrorText(
+                    content:
+                        'No gas stations found for location(latitude: ${currentLocation.latitude ?? 0.0} longitude: ${currentLocation.longitude ?? 0.0})',
+                  ),
+                  TextButton(
+                    onPressed: _handler.updateLocations,
+                    child: const Text('Retry'),
+                  ),
+                ],
               );
 
-            return Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                AddressContainer(
-                  address: _handler.currentAddress,
-                  latitude: currentLocation.latitude,
-                  longitude: currentLocation.longitude,
-                ),
-
-                //TODO(jayjah): add page to search for gas stations in user determined postal code
-
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    RadiusChanger(
-                      startRadius: _handler.currentRadius,
-                      onRadiusChange: (int radius) =>
-                          _handler.updateRadius = radius,
-                    ),
-                    FilterChanger(
-                      startFilter: _handler.currentFilter,
-                      onFilterChange: (Filter filter) =>
-                          _handler.updateFilter = filter,
-                    ),
-                  ],
-                ),
-
-                const SizedBox(
-                  height: 20,
-                ),
-                GasStationList(stations: stations),
-              ],
-            );
+            switch (_handler.currentViewMode) {
+              case ViewMode.searchAround:
+                return SearchAroundView(
+                  currentAddress: _handler.currentAddress,
+                  currentFilter: _handler.currentFilter,
+                  currentLocation: currentLocation,
+                  currentRadius: _handler.currentRadius,
+                  onFilterChange: (Filter filter) =>
+                      _handler.updateFilter = filter,
+                  onRadiusChange: (int radius) =>
+                      _handler.updateRadius = radius,
+                  stations: stations,
+                );
+              case ViewMode.searchForPostalCode:
+                return SearchPostalCodeView(
+                  currentLocation: currentLocation,
+                  currentAddress: _handler.currentAddress,
+                  stations: stations,
+                  onSearchForPostalCode: (int postalCode) =>
+                      _handler.updatePostalCode = postalCode,
+                );
+            }
           },
         );
       },

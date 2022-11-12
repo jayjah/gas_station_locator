@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:gasstation_locator/src/splash/splash_screen_widget.dart';
 import 'package:gasstation_locator/src/util/dialogs.dart';
@@ -18,6 +19,7 @@ class App extends StatelessWidget {
         ),
         useMaterial3: true,
       ),
+      debugShowCheckedModeBanner: kDebugMode,
       home: const Material(child: SplashScreen()),
     );
   }

@@ -13,14 +13,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    Future<void>.delayed(const Duration(seconds: 3), () {
-      Navigator.of(context).push(
-        MaterialPageRoute<Material>(
-          builder: (BuildContext context) =>
-              const Material(child: PermissionWidget()),
-        ),
-      );
-    });
+    _navigateToNextScreenAfter(duration: const Duration(seconds: 3));
   }
 
   @override
@@ -34,4 +27,17 @@ class _SplashScreenState extends State<SplashScreen> {
       ),
     );
   }
+
+  void _navigateToNextScreenAfter({required Duration duration}) =>
+      Future<void>.delayed(
+        duration,
+        () {
+          Navigator.of(context).push(
+            MaterialPageRoute<Material>(
+              builder: (BuildContext context) =>
+                  const Material(child: PermissionWidget()),
+            ),
+          );
+        },
+      );
 }
