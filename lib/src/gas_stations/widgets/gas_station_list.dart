@@ -8,16 +8,20 @@ class GasStationList extends StatelessWidget {
     required this.stations,
     required this.currentLongitude,
     required this.currentLatitude,
+    required this.scrollController,
   });
   final Iterable<Station> stations;
   final double? currentLatitude;
   final double? currentLongitude;
+  final ScrollController scrollController;
   @override
   Widget build(BuildContext context) {
     return Expanded(
       child: Scrollbar(
         thumbVisibility: true,
+        controller: scrollController,
         child: ListView.builder(
+          controller: scrollController,
           itemCount: stations.length,
           itemBuilder: (BuildContext context, int index) {
             final Station gasStation = stations.elementAt(index);

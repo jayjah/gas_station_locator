@@ -1,0 +1,29 @@
+PODS:
+  - FlutterMacOS (1.0.0)
+  - location_macos (0.0.1):
+    - FlutterMacOS
+    - SwiftLocation/Core (= 5.1.0)
+  - SwiftLocation/Core (5.1.0)
+
+DEPENDENCIES:
+  - FlutterMacOS (from `Flutter/ephemeral`)
+  - location_macos (from `Flutter/ephemeral/.symlinks/plugins/location_macos/macos`)
+
+SPEC REPOS:
+  trunk:
+    - SwiftLocation
+
+EXTERNAL SOURCES:
+  FlutterMacOS:
+    :path: Flutter/ephemeral
+  location_macos:
+    :path: Flutter/ephemeral/.symlinks/plugins/location_macos/macos
+
+SPEC CHECKSUMS:
+  FlutterMacOS: ae6af50a8ea7d6103d888583d46bd8328a7e9811
+  location_macos: 999b2e333cb8e571cce59d2bc467c28d38499132
+  SwiftLocation: 83e0ea75a1969cee3a1197e2b7095603fc23fde5
+
+PODFILE CHECKSUM: 8d40c19d3cbdb380d870685c3a564c989f1efa52
+
+COCOAPODS: 1.11.3

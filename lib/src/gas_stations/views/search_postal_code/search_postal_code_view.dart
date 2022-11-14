@@ -26,6 +26,7 @@ class SearchPostalCodeView extends StatefulWidget {
 
 class _SearchPostalCodeViewState extends State<SearchPostalCodeView> {
   final TextEditingController _textEditingController = TextEditingController();
+  final ScrollController _scrollController = ScrollController();
 
   @override
   void initState() {
@@ -78,6 +79,7 @@ class _SearchPostalCodeViewState extends State<SearchPostalCodeView> {
           stations: widget.stations,
           currentLatitude: latitude,
           currentLongitude: longitude,
+          scrollController: _scrollController,
         ),
       ],
     );
@@ -86,6 +88,7 @@ class _SearchPostalCodeViewState extends State<SearchPostalCodeView> {
   @override
   void dispose() {
     _textEditingController.dispose();
+    _scrollController.dispose();
     super.dispose();
   }
 }

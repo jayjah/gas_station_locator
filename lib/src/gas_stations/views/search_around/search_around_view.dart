@@ -8,7 +8,7 @@ import 'package:gasstation_locator/src/gas_stations/widgets/gas_station_list.dar
 import 'package:location/location.dart';
 import 'package:tankerkoenig_dart/tankerkoenig_dart.dart' show Station;
 
-class SearchAroundView extends StatelessWidget {
+class SearchAroundView extends StatefulWidget {
   const SearchAroundView({
     super.key,
     required this.currentFilter,
@@ -26,16 +26,24 @@ class SearchAroundView extends StatelessWidget {
   final OnFilterChanged onFilterChange;
   final Iterable<Station> stations;
   final Filter currentFilter;
+
+  @override
+  State<SearchAroundView> createState() => _SearchAroundViewState();
+}
+
+class _SearchAroundViewState extends State<SearchAroundView> {
+  final ScrollController _scrollController = ScrollController();
+
   @override
   Widget build(BuildContext context) {
-    final double? latitude = currentLocation.latitude;
-    final double? longitude = currentLocation.longitude;
+    final double? latitude = widget.currentLocation.latitude;
+    final double? longitude = widget.currentLocation.longitude;
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         AddressContainer(
-          address: currentAddress,
+          address: widget.currentAddress,
           latitude: latitude,
           longitude: longitude,
         ),
@@ -43,12 +51,12 @@ class SearchAroundView extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
             RadiusChanger(
-              startRadius: currentRadius,
-              onRadiusChange: onRadiusChange,
+              startRadius: widget.currentRadius,
+              onRadiusChange: widget.onRadiusChange,
             ),
             FilterChanger(
-              startFilter: currentFilter,
-              onFilterChange: onFilterChange,
+              startFilter: widget.currentFilter,
+              onFilterChange: widget.onFilterChange,
             ),
           ],
         ),
@@ -56,11 +64,18 @@ class SearchAroundView extends StatelessWidget {
           height: 20,
         ),
         GasStationList(
-          stations: stations,
+          stations: widget.stations,
           currentLatitude: latitude,
           currentLongitude: longitude,
+          scrollController: _scrollController,
         ),
       ],
     );
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
   }
 }

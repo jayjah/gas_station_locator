@@ -1,6 +1,9 @@
 # Created by https://www.toptal.com/developers/gitignore/api/flutter,intellij+all
 # Edit at https://www.toptal.com/developers/gitignore?templates=flutter,intellij+all
 
+### macOS ###
+.DS_Store
+
 ### Flutter ###
 # Flutter/Dart/Pub related
 **/doc/api/
