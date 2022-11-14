@@ -47,7 +47,7 @@ class _PermissionWidgetState extends State<PermissionWidget>
           await SystemChannels.platform
               .invokeMethod<void>('SystemNavigator.pop');
 
-        return true;
+        return false;
       },
       child: ValueListenableBuilder<AppLifecycleState>(
         valueListenable: _lifecycleListenable,
