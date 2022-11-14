@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show SystemChannels;
 import 'package:gasstation_locator/src/gas_stations/station_searcher_widget.dart';
 import 'package:gasstation_locator/src/permissions/permission_handler.dart';
+import 'package:gasstation_locator/src/permissions/widgets/settings_button.dart';
 import 'package:gasstation_locator/src/util/dialogs.dart';
 
 class PermissionWidget extends StatefulWidget {
@@ -29,7 +30,8 @@ class _PermissionWidgetState extends State<PermissionWidget>
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     debugPrint('LifecycleProvider :: didChangeAppLifecycleState: $state');
-    if (_lifecycleListenable.value == state) return;
+    if (_lifecycleListenable.value == state ||
+        state == AppLifecycleState.inactive) return;
 
     _lifecycleListenable.value = state;
     _handler.checkPermissions();
@@ -37,11 +39,6 @@ class _PermissionWidgetState extends State<PermissionWidget>
 
   @override
   Widget build(BuildContext context) {
-    const TextStyle errorTextStyle = TextStyle(
-      fontWeight: FontWeight.w600,
-      fontSize: 20,
-    );
-
     return WillPopScope(
       onWillPop: () async {
         final bool closeApp = await const AppDialogs()
@@ -61,15 +58,11 @@ class _PermissionWidgetState extends State<PermissionWidget>
           animation: _handler,
           builder: (BuildContext context, Widget? child) {
             if (_handler.isLoading)
-              return const CircularProgressIndicator.adaptive();
+              return const Center(child: CircularProgressIndicator.adaptive());
             if (!_handler.gpsServiceEnabled)
-              return const Center(
-                child: Text('GPS Service not enabled', style: errorTextStyle),
-              );
+              return const SettingsButton(content: 'GPS Service not enabled');
             if (!_handler.gpsPermissionGiven)
-              return const Center(
-                child: Text('GPS Permissions not given', style: errorTextStyle),
-              );
+              return const SettingsButton(content: 'GPS Permissions not given');
 
             return child!;
           },

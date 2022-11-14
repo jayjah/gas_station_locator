@@ -23,7 +23,6 @@ enum ViewMode {
 }
 
 class GasStationHandler with ChangeNotifier {
-  late final Location _location = Location();
   late final TankerKoenigApi _api = TankerKoenigApi(_kApiKey);
   late final GeoCode _reverseGeoCoding = GeoCode();
 
@@ -109,7 +108,14 @@ class GasStationHandler with ChangeNotifier {
 
   Future<void> _updateCurrentLocation() async {
     _loading = true;
-    _currentLocation = await _location.getLocation();
+    _currentLocation = await getLocation(
+      settings: LocationSettings(
+        askForGPS: true,
+        askForPermission: true,
+        useGooglePlayServices: false,
+        waitForAccurateLocation: true,
+      ),
+    );
     if (_currentLocation?.latitude != null &&
         _currentLocation?.longitude != null)
       // ignore: curly_braces_in_flow_control_structures
@@ -118,7 +124,9 @@ class GasStationHandler with ChangeNotifier {
           latitude: _currentLocation!.latitude!,
           longitude: _currentLocation!.longitude!,
         );
-      } catch (e, stackTrace) {}
+      } catch (e, stackTrace) {
+        debugPrint('Error happened: $e \n $stackTrace');
+      }
     debugPrint('current location: $_currentLocation');
     debugPrint('current address: $_currentAddress');
     notifyListeners();

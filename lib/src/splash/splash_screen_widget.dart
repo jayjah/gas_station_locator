@@ -13,7 +13,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    _navigateToNextScreenAfter(duration: const Duration(seconds: 3));
+    _navigateToNextScreenAfter(duration: const Duration(seconds: 4));
   }
 
   @override

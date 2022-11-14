@@ -28,13 +28,16 @@ class SearchAroundView extends StatelessWidget {
   final Filter currentFilter;
   @override
   Widget build(BuildContext context) {
+    final double? latitude = currentLocation.latitude;
+    final double? longitude = currentLocation.longitude;
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         AddressContainer(
           address: currentAddress,
-          latitude: currentLocation.latitude,
-          longitude: currentLocation.longitude,
+          latitude: latitude,
+          longitude: longitude,
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -53,9 +56,10 @@ class SearchAroundView extends StatelessWidget {
           height: 20,
         ),
         GasStationList(
-            stations: stations,
-            currentLatitude: currentLocation.latitude,
-            currentLongitude: currentLocation.longitude),
+          stations: stations,
+          currentLatitude: latitude,
+          currentLongitude: longitude,
+        ),
       ],
     );
   }

@@ -35,13 +35,16 @@ class _SearchPostalCodeViewState extends State<SearchPostalCodeView> {
 
   @override
   Widget build(BuildContext context) {
+    final double? latitude = widget.currentLocation.latitude;
+    final double? longitude = widget.currentLocation.longitude;
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         AddressContainer(
           address: widget.currentAddress,
-          latitude: widget.currentLocation.latitude,
-          longitude: widget.currentLocation.longitude,
+          latitude: latitude,
+          longitude: longitude,
         ),
         Padding(
           padding: const EdgeInsets.only(
@@ -73,8 +76,8 @@ class _SearchPostalCodeViewState extends State<SearchPostalCodeView> {
         const SizedBox(height: 20),
         GasStationList(
           stations: widget.stations,
-          currentLatitude: widget.currentLocation.latitude,
-          currentLongitude: widget.currentLocation.longitude,
+          currentLatitude: latitude,
+          currentLongitude: longitude,
         ),
       ],
     );

@@ -15,17 +15,20 @@ class GasStationList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: ListView.builder(
-        itemCount: stations.length,
-        itemBuilder: (BuildContext context, int index) {
-          final Station gasStation = stations.elementAt(index);
+      child: Scrollbar(
+        thumbVisibility: true,
+        child: ListView.builder(
+          itemCount: stations.length,
+          itemBuilder: (BuildContext context, int index) {
+            final Station gasStation = stations.elementAt(index);
 
-          return GasStationTile(
-            gasStation: gasStation,
-            currentLatitude: currentLatitude,
-            currentLongitude: currentLongitude,
-          );
-        },
+            return GasStationTile(
+              gasStation: gasStation,
+              currentLatitude: currentLatitude,
+              currentLongitude: currentLongitude,
+            );
+          },
+        ),
       ),
     );
   }

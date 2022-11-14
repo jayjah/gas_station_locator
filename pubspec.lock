@@ -29,6 +29,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.1"
+  app_settings:
+    dependency: "direct main"
+    description:
+      name: app_settings
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "4.1.8"
   archive:
     dependency: transitive
     description:
@@ -268,21 +275,42 @@ packages:
       name: location
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.4.0"
+    version: "5.0.0-dev.8"
+  location_android:
+    dependency: transitive
+    description:
+      name: location_android
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "5.0.0-dev.3"
+  location_ios:
+    dependency: transitive
+    description:
+      name: location_ios
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "5.0.0-dev.4"
+  location_macos:
+    dependency: transitive
+    description:
+      name: location_macos
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "5.0.0-dev.3"
   location_platform_interface:
     dependency: transitive
     description:
       name: location_platform_interface
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.3.0"
+    version: "5.0.0-dev.3"
   location_web:
     dependency: transitive
     description:
       name: location_web
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.1.1"
+    version: "5.0.0-dev.3"
   logging:
     dependency: transitive
     description:
@@ -493,4 +521,4 @@ packages:
     version: "3.1.1"
 sdks:
   dart: ">=2.18.4 <3.0.0"
-  flutter: ">=1.20.0"
+  flutter: ">=3.0.1"

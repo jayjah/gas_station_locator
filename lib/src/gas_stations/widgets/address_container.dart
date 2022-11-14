@@ -18,7 +18,7 @@ class AddressContainer extends StatelessWidget {
       width: MediaQuery.of(context).size.width - 25,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
-        boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.3))],
+        boxShadow: <BoxShadow>[BoxShadow(color: Colors.black.withOpacity(0.3))],
       ),
       padding: const EdgeInsets.all(10),
       child: Column(
