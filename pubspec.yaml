@@ -13,6 +13,7 @@ dependencies:
   location: ^4.4.0
   tankerkoenig_dart: ^1.0.2
   geocode: ^1.0.2
+  map_launcher: ^2.4.0
 
 dev_dependencies:
   integration_test:

@@ -52,7 +52,10 @@ class SearchAroundView extends StatelessWidget {
         const SizedBox(
           height: 20,
         ),
-        GasStationList(stations: stations),
+        GasStationList(
+            stations: stations,
+            currentLatitude: currentLocation.latitude,
+            currentLongitude: currentLocation.longitude),
       ],
     );
   }

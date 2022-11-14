@@ -71,7 +71,11 @@ class _SearchPostalCodeViewState extends State<SearchPostalCodeView> {
           ),
         ),
         const SizedBox(height: 20),
-        GasStationList(stations: widget.stations),
+        GasStationList(
+          stations: widget.stations,
+          currentLatitude: widget.currentLocation.latitude,
+          currentLongitude: widget.currentLocation.longitude,
+        ),
       ],
     );
   }

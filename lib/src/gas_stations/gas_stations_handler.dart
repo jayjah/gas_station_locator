@@ -113,10 +113,12 @@ class GasStationHandler with ChangeNotifier {
     if (_currentLocation?.latitude != null &&
         _currentLocation?.longitude != null)
       // ignore: curly_braces_in_flow_control_structures
-      _currentAddress = await _reverseGeoCoding.reverseGeocoding(
-        latitude: _currentLocation!.latitude!,
-        longitude: _currentLocation!.longitude!,
-      );
+      try {
+        _currentAddress = await _reverseGeoCoding.reverseGeocoding(
+          latitude: _currentLocation!.latitude!,
+          longitude: _currentLocation!.longitude!,
+        );
+      } catch (e, stackTrace) {}
     debugPrint('current location: $_currentLocation');
     debugPrint('current address: $_currentAddress');
     notifyListeners();
