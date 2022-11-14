@@ -26,6 +26,7 @@ dev_dependencies:
   flutter_lints: ^2.0.1
   dart_code_metrics:
   flutter_launcher_icons: ^0.10.0
+  flutter_native_splash: ^2.2.14
 
 dependency_overrides:
   tankerkoenig_dart:
@@ -43,3 +44,40 @@ flutter_icons:
   android: true
   image_path: "assets/gas_pump_icon.jpg"
   remove_alpha_ios: true
+
+# flutter pub run flutter_native_splash:create
+# flutter pub run flutter_native_splash:remove
+flutter_native_splash:
+  color: "#FFFFFF"
+  #background_image: "assets/images/splash/bg_only.png"
+  # It must be a png file
+  image: "assets/gas_pump_icon.png"
+
+  # The color_dark, background_image_dark, and image_dark are parameters that set the background
+  # and image when the device is in dark mode. If they are not specified, the app will use the
+  # parameters from above. If the image_dark parameter is specified, color_dark or
+  # background_image_dark must be specified.  color_dark and background_image_dark cannot both be
+  # set.
+  #color_dark: "#042a49"
+  #background_image_dark: "assets/dark-background.png"
+  #image_dark: assets/splash-invert.png
+
+  # Platforms
+  android: true
+  ios: true
+  web: false
+
+  # The position of the splash image can be set with android_gravity, ios_content_mode, and
+  # web_image_mode parameters.  All default to center.
+  #
+  # android_gravity can be one of the following Android Gravity (see
+  # https://developer.android.com/reference/android/view/Gravity): bottom, center,
+  # center_horizontal, center_vertical, clip_horizontal, clip_vertical, end, fill, fill_horizontal,
+  # fill_vertical, left, right, start, or top.
+  android_gravity: center
+
+  # ios_content_mode can be one of the following iOS UIView.ContentMode (see
+  # https://developer.apple.com/documentation/uikit/uiview/contentmode): scaleToFill,
+  # scaleAspectFit, scaleAspectFill, center, top, bottom, left, right, topLeft, topRight,
+  # bottomLeft, or bottomRight.
+  ios_content_mode: center
