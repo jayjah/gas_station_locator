@@ -45,7 +45,7 @@ class GasStationTile extends StatelessWidget {
           ...gasStation.fuels
               .map<Widget>(
                 (Fuel e) => Text(
-                  '${e.name} = ${e.price}   Update: ${e.lastChange.timeStamp.toHourMinuteDayMonth}',
+                  '${e.name} ${e.price}   Update: ${e.lastChange.timeStamp.toHourMinuteDayMonth}',
                 ),
               )
               .toList(growable: false),

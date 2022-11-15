@@ -11,7 +11,7 @@ dependencies:
     sdk: flutter
   rive: ^0.9.1
   location: ^5.0.0-dev.8
-  tankerkoenig_dart: ^1.0.2
+  tankerkoenig_dart: ^1.0.3
   geocode: ^1.0.2
   map_launcher: ^2.4.0
   app_settings: ^4.1.8

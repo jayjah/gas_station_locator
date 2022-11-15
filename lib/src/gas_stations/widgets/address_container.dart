@@ -16,23 +16,30 @@ class AddressContainer extends StatelessWidget {
 
     return Container(
       width: MediaQuery.of(context).size.width - 25,
+      padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
         boxShadow: <BoxShadow>[BoxShadow(color: Colors.black.withOpacity(0.3))],
       ),
-      padding: const EdgeInsets.all(10),
       child: Column(
         children: <Widget>[
           const SizedBox(
             height: 8,
           ),
+          if (address.trim().isNotEmpty)
+            Text(
+              address,
+              style: defaultStyle,
+              textAlign: TextAlign.center,
+            )
+          else
+            const Text(
+              'Address unknown',
+              style: defaultStyle,
+              textAlign: TextAlign.center,
+            ),
           Text(
-            address,
-            style: defaultStyle,
-            textAlign: TextAlign.center,
-          ),
-          Text(
-            'latitude = $latitude  |  longitude = $longitude',
+            '$latitude  |  $longitude',
             style: defaultStyle,
             textAlign: TextAlign.center,
           ),

@@ -42,12 +42,11 @@ class _FilterChangerState extends State<FilterChanger> {
               );
             }).toList(growable: false);
           },
-          child: const Text('Change filter', style: defaultStyle),
+          child: Text(
+            'Current filter: ${_currentFilter.name}',
+            style: defaultStyle,
+          ),
         ),
-        const SizedBox(
-          height: 10,
-        ),
-        Text('Current filter: ${_currentFilter.name}'),
       ],
     );
   }

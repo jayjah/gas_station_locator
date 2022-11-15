@@ -4,7 +4,7 @@ import 'package:gasstation_locator/src/gas_stations/gas_stations_handler.dart'
 
 typedef OnViewModeChanged = void Function(ViewMode nextMode);
 
-class BottomNavigation extends StatelessWidget {
+class BottomNavigation extends StatefulWidget {
   const BottomNavigation({
     super.key,
     required this.onNextView,
@@ -21,24 +21,35 @@ class BottomNavigation extends StatelessWidget {
   });
   final List<BottomNavigationBarItem> items;
   final OnViewModeChanged onNextView;
+
+  @override
+  State<BottomNavigation> createState() => _BottomNavigationState();
+}
+
+class _BottomNavigationState extends State<BottomNavigation> {
+  int _currentIndex = 0;
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
+      currentIndex: _currentIndex,
       onTap: _onTap,
-      items: items,
+      items: widget.items,
     );
   }
 
   void _onTap(int? index) {
     if (index == null) return;
 
-    final BottomNavigationBarItem nextItem = items[index];
+    final BottomNavigationBarItem nextItem = widget.items[index];
 
     final ViewMode next = ViewMode.values.firstWhere((ViewMode element) {
       return element.message.toLowerCase().trim() ==
           nextItem.label!.toLowerCase().trim();
     });
+    setState(() {
+      _currentIndex = index;
+    });
 
-    onNextView(next);
+    widget.onNextView(next);
   }
 }
