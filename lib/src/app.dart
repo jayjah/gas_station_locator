@@ -20,7 +20,10 @@ class App extends StatelessWidget {
         useMaterial3: true,
       ),
       debugShowCheckedModeBanner: kDebugMode,
-      home: const Material(child: SplashScreen()),
+      home: const Material(
+        key: ValueKey<String>('splash_screen'),
+        child: SplashScreen(),
+      ),
     );
   }
 }

@@ -19,9 +19,11 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
+      key: ValueKey<String>('splash_anim'),
       body: Center(
         child: RiveAnimation.asset(
           'assets/pump-gas.riv',
+          placeHolder: CircularProgressIndicator.adaptive(),
           fit: BoxFit.contain,
         ),
       ),
