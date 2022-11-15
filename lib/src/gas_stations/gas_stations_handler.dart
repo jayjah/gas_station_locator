@@ -141,7 +141,7 @@ class GasStationHandler with ChangeNotifier {
         .toList(growable: false)
       ?..sortByFilter(_currentFilter);
     _loading = false;
-    debugPrint('all stations: ${_stations?.toList()}');
+    //debugPrint('all stations: ${_stations?.toList()}');
     notifyListeners();
   }
 
@@ -156,7 +156,7 @@ class GasStationHandler with ChangeNotifier {
         .toList(growable: false)
       ?..sortByFilter(_currentFilter);
     _loading = false;
-    debugPrint('all stations: ${_stations?.toList()}');
+    //debugPrint('all stations: ${_stations?.toList()}');
     notifyListeners();
   }
 }

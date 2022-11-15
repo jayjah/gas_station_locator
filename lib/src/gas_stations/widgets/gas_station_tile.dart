@@ -35,20 +35,18 @@ class GasStationTile extends StatelessWidget {
       subtitle: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(children: <Widget>[
-          Text(
+          SelectableText(
             '${gasStation.street} ${gasStation.postalCode} ${gasStation.place}',
             textAlign: TextAlign.center,
           ),
           const SizedBox(
             height: 5,
           ),
-          ...gasStation.fuels
-              .map<Widget>(
-                (Fuel e) => Text(
-                  '${e.name} ${e.price}   Update: ${e.lastChange.timeStamp.toHourMinuteDayMonth}',
-                ),
-              )
-              .toList(growable: false),
+          ...gasStation.fuels.map<Widget>(
+            (Fuel e) => Text(
+              '${e.name} ${e.price}   Update: ${e.lastChange.timeStamp.toHourMinuteDayMonth}',
+            ),
+          ),
         ]),
       ),
     );
