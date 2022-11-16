@@ -66,7 +66,9 @@ class _PermissionWidgetState extends State<PermissionWidget>
 
             return child!;
           },
-          child: const GasStationSearcherWidget(),
+          child: const GasStationSearcherWidget(
+            key: ValueKey<String>('gas_stations'),
+          ),
         ),
       ),
     );

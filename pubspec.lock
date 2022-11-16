@@ -462,7 +462,7 @@ packages:
       path: "/Users/jayjah/github/tankerkoenig_dart"
       relative: false
     source: path
-    version: "1.0.2"
+    version: "1.0.3"
   term_glyph:
     dependency: transitive
     description:

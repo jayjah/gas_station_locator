@@ -30,6 +30,7 @@ class _GasStationSearcherWidgetState extends State<GasStationSearcherWidget> {
   @override
   Widget build(BuildContext context) {
     return ScaffoldContainer(
+      key: const ValueKey<String>('scaffold'),
       bottomNavigation: BottomNavigation(
         onNextView: (ViewMode nextViewMode) =>
             _handler.updateViewMode = nextViewMode,
