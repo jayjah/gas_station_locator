@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gasstation_locator/src/gas_stations/gas_stations_handler.dart'
-    show ViewMode, kSearchAroundLabel, kPostalCodeLabel;
+    show ViewMode, kPostalCodeLabel, kSearchAroundLabel, kStatistics;
 
 typedef OnViewModeChanged = void Function(ViewMode nextMode);
 
@@ -16,6 +16,10 @@ class BottomNavigation extends StatefulWidget {
       BottomNavigationBarItem(
         icon: Icon(Icons.location_city_outlined),
         label: kPostalCodeLabel,
+      ),
+      BottomNavigationBarItem(
+        icon: Icon(Icons.stacked_bar_chart),
+        label: kStatistics,
       ),
     ],
   });

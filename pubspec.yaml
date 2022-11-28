@@ -15,6 +15,9 @@ dependencies:
   geocode: ^1.0.2
   map_launcher: ^2.4.0
   app_settings: ^4.1.8
+  package_info_plus: ^3.0.2
+  sentry: ^6.17.0
+  logging: ^1.1.0
 
 dev_dependencies:
   integration_test:

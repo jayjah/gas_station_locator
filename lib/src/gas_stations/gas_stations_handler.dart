@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart' show ChangeNotifier, debugPrint;
-import 'package:geocode/geocode.dart';
-import 'package:location/location.dart';
+import 'package:gasstation_locator/src/logger.dart';
+import 'package:geocode/geocode.dart' show GeoCode, Address;
+import 'package:location/location.dart'
+    show LocationData, getLocation, LocationSettings;
 import 'package:tankerkoenig_dart/tankerkoenig_dart.dart';
 
 const String _kApiKey = 'c2e9b4de-1aa2-22eb-3284-a24b4cf1a9fd';
@@ -13,10 +15,12 @@ enum Filter {
 
 const String kSearchAroundLabel = 'Search around';
 const String kPostalCodeLabel = 'Search for postal code';
+const String kStatistics = 'Statistics';
 
 enum ViewMode {
   searchAround(kSearchAroundLabel),
-  searchForPostalCode(kPostalCodeLabel);
+  searchForPostalCode(kPostalCodeLabel),
+  statistics(kStatistics);
 
   const ViewMode(this.message);
   final String message;
@@ -34,6 +38,7 @@ class GasStationHandler with ChangeNotifier {
   bool _loading = true;
   ViewMode _currentViewMode = ViewMode.searchAround;
   int _postalCode = -1;
+  Statistic? _statistic;
 
   GasStationHandler();
 
@@ -43,7 +48,6 @@ class GasStationHandler with ChangeNotifier {
   set updateRadius(int radius) {
     _loading = true;
     _radiusInKm = radius;
-    debugPrint('new radius: $_radiusInKm');
     notifyListeners();
     _retrieveGasStationsByLatLng();
   }
@@ -54,7 +58,6 @@ class GasStationHandler with ChangeNotifier {
     _postalCode = postalCode;
     _loading = true;
     notifyListeners();
-    debugPrint('new postal code: $_postalCode');
     _retrieveGasStationsByPostalCode();
   }
 
@@ -71,7 +74,6 @@ class GasStationHandler with ChangeNotifier {
             return t1.dieselPrice.compareTo(t2.dieselPrice);
         }
       });
-    debugPrint('new filter: $_currentFilter');
     notifyListeners();
   }
 
@@ -86,10 +88,16 @@ class GasStationHandler with ChangeNotifier {
         break;
       case ViewMode.searchForPostalCode:
         if (_postalCode != -1) _retrieveGasStationsByPostalCode();
+        break;
+      case ViewMode.statistics:
+        if (_statistic == null) _retrieveStatistics();
+        break;
     }
   }
 
   int get currentPostalCode => _postalCode;
+
+  Statistic? get statistic => _statistic;
 
   int get currentRadius => _radiusInKm;
 
@@ -134,29 +142,59 @@ class GasStationHandler with ChangeNotifier {
 
   Future<void> _retrieveGasStationsByPostalCode() async {
     final DateTime now = DateTime.now();
-    _stations = (await _api.stationsByPostalCode(
-      postalCode: _postalCode,
-    ))
-        ?.filterForOpenCloseTime(now)
-        .toList(growable: false)
-      ?..sortByFilter(_currentFilter);
+    try {
+      _stations = (await _api.stationsByPostalCode(
+        postalCode: _postalCode,
+      ))
+          ?.filterForOpenCloseTime(now)
+          .toList(growable: false)
+        ?..sortByFilter(_currentFilter);
+    } catch (e, stackTrace) {
+      await Logger.instance.logError(
+        'stationsByPostalCode error: $e',
+        stackTrace: stackTrace,
+      );
+      _stations = <Station>[];
+    }
     _loading = false;
-    //debugPrint('all stations: ${_stations?.toList()}');
+    notifyListeners();
+  }
+
+  Future<void> _retrieveStatistics() async {
+    _loading = true;
+    notifyListeners();
+    try {
+      _statistic = await _api.statistics();
+    } catch (e, stackTrace) {
+      await Logger.instance.logError(
+        'statistics error: $e',
+        stackTrace: stackTrace,
+      );
+      _statistic = null;
+    }
+    _loading = false;
     notifyListeners();
   }
 
   Future<void> _retrieveGasStationsByLatLng() async {
     final DateTime now = DateTime.now();
-    _stations = (await _api.stationsByLatLng(
-      latitude: _currentLocation?.latitude ?? 0.0,
-      longitude: _currentLocation?.longitude ?? 0.0,
-      radius: _radiusInKm,
-    ))
-        ?.filterForOpenCloseTime(now)
-        .toList(growable: false)
-      ?..sortByFilter(_currentFilter);
+    try {
+      _stations = (await _api.stationsByLatLng(
+        latitude: _currentLocation?.latitude ?? 0.0,
+        longitude: _currentLocation?.longitude ?? 0.0,
+        radius: _radiusInKm,
+      ))
+          ?.filterForOpenCloseTime(now)
+          .toList(growable: false)
+        ?..sortByFilter(_currentFilter);
+    } catch (e, stackTrace) {
+      await Logger.instance.logError(
+        'stationsByLatLng error: $e',
+        stackTrace: stackTrace,
+      );
+      _stations = <Station>[];
+    }
     _loading = false;
-    //debugPrint('all stations: ${_stations?.toList()}');
     notifyListeners();
   }
 }

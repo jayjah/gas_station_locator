@@ -39,7 +39,7 @@ class AddressContainer extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
           Text(
-            '$latitude  |  $longitude',
+            '${latitude?.toStringAsPrecision(8)}  |  ${longitude?.toStringAsPrecision(8)}',
             style: defaultStyle,
             textAlign: TextAlign.center,
           ),

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:gasstation_locator/src/gas_stations/gas_stations_handler.dart';
 import 'package:gasstation_locator/src/gas_stations/views/search_around/search_around_view.dart';
 import 'package:gasstation_locator/src/gas_stations/views/search_postal_code/search_postal_code_view.dart';
+import 'package:gasstation_locator/src/gas_stations/views/statistic/statistic_view.dart';
 import 'package:gasstation_locator/src/gas_stations/widgets/bottom_navigation.dart';
 import 'package:gasstation_locator/src/gas_stations/widgets/error_text.dart';
 import 'package:gasstation_locator/src/gas_stations/widgets/scaffold_container.dart';
@@ -84,6 +85,8 @@ class _GasStationSearcherWidgetState extends State<GasStationSearcherWidget> {
                   onSearchForPostalCode: (int postalCode) =>
                       _handler.updatePostalCode = postalCode,
                 );
+              case ViewMode.statistics:
+                return StatisticView(statistic: _handler.statistic);
             }
           },
         );
