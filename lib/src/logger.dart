@@ -52,7 +52,7 @@ class Logger {
             ..sentryClientName = 'open_mind'
             ..release =
                 'Build: ${packageInfo.buildNumber} :: Version: ${packageInfo.version} Store: ${packageInfo.installerStore} build_signature: ${packageInfo.buildSignature}'
-            ..dsn = '';
+            ..dsn = _sentryDns;
         },
       );
     }

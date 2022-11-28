@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart' show ChangeNotifier, debugPrint;
+import 'package:gasstation_locator/src/env.dart';
 import 'package:gasstation_locator/src/logger.dart';
 import 'package:geocode/geocode.dart' show GeoCode, Address;
 import 'package:location/location.dart'
     show LocationData, getLocation, LocationSettings;
 import 'package:tankerkoenig_dart/tankerkoenig_dart.dart';
-
-const String _kApiKey = 'c2e9b4de-1aa2-22eb-3284-a24b4cf1a9fd';
 
 enum Filter {
   e5,
@@ -27,7 +26,8 @@ enum ViewMode {
 }
 
 class GasStationHandler with ChangeNotifier {
-  late final TankerKoenigApi _api = TankerKoenigApi(_kApiKey);
+  late final TankerKoenigApi _api =
+      TankerKoenigApi(Env.instance.tankerKoenigToken);
   late final GeoCode _reverseGeoCoding = GeoCode();
 
   LocationData? _currentLocation;

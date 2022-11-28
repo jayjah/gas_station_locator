@@ -11,10 +11,13 @@ import 'package:flutter/material.dart'
         TextAlign,
         Widget;
 import 'package:gasstation_locator/src/app.dart';
+import 'package:gasstation_locator/src/env.dart';
 import 'package:gasstation_locator/src/logger.dart';
 
-void main() {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  await Logger.instance.init(sentryDns: Env.instance.sentryDns);
 
   /// It ensures crash reporting only happens in release mode
   if (kReleaseMode) _prepareErrorHandling();
