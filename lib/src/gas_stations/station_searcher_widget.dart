@@ -86,7 +86,11 @@ class _GasStationSearcherWidgetState extends State<GasStationSearcherWidget> {
                       _handler.updatePostalCode = postalCode,
                 );
               case ViewMode.statistics:
-                return StatisticView(statistic: _handler.statistic);
+                return StatisticView(
+                  statistic: _handler.statistic,
+                  currentLocation: currentLocation,
+                  currentAddress: _handler.currentAddress,
+                );
             }
           },
         );

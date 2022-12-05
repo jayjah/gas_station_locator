@@ -21,6 +21,7 @@ class AddressContainer extends StatelessWidget {
         borderRadius: BorderRadius.circular(10),
         boxShadow: <BoxShadow>[BoxShadow(color: Colors.black.withOpacity(0.3))],
       ),
+      alignment: Alignment.center,
       child: Column(
         children: <Widget>[
           const SizedBox(
