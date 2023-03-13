@@ -43,7 +43,7 @@ class _FilterChangerState extends State<FilterChanger> {
             }).toList(growable: false);
           },
           child: Text(
-            'Current filter: ${_currentFilter.name}',
+            'Current filter:\n${_currentFilter.name}',
             style: defaultStyle,
           ),
         ),
