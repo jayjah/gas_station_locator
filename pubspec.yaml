@@ -1,7 +1,7 @@
 name: gasstation_locator
 description: A flutter project to locate the cheapest gas station next to the user. This project is determined to be used in germany.
 publish_to: 'none'
-version: 1.0.0+1
+version: 1.0.1
 
 environment:
   sdk: '>=2.18.4 <3.0.0'
