@@ -49,7 +49,6 @@ class Logger {
         (SentryOptions options) {
           options
             ..debug = false
-            ..sentryClientName = 'open_mind'
             ..release =
                 'Build: ${packageInfo.buildNumber} :: Version: ${packageInfo.version} Store: ${packageInfo.installerStore} build_signature: ${packageInfo.buildSignature}'
             ..dsn = _sentryDns;
@@ -61,16 +60,16 @@ class Logger {
   void logMessage(String msg) {
     if (kReleaseMode) return;
 
-    dev.log('Open_Mind App Log \n Message: $msg');
+    dev.log('App Log \n Message: $msg');
   }
 
   Future<void> logError(Object error, {StackTrace? stackTrace}) async {
     logMessage(
-      'Open_Mind App Error: $error \n Stacktrace: $stackTrace',
+      'App Error: $error \n Stacktrace: $stackTrace',
     );
     if (Sentry.isEnabled)
       await Sentry.captureException(
-        'Open_Mind App Error: $error',
+        'App Error: $error',
         stackTrace: stackTrace,
       );
   }
